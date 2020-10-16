@@ -1,1 +1,1 @@
-https://ZoHiR-SaLaK.github.io/
+https://zohir-salak.github.io/
