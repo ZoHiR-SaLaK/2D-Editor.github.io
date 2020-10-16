@@ -1,0 +1,40 @@
+*,*:after,*:before{
+	padding:0;
+	margin:0;
+	box-sizing: border-box;
+}
+i{
+	pointer-events: none;
+}
+.ctr{
+	display:flex;
+	flex-direction:column;
+	height:100vh
+}
+
+.ctr>.toolbox{
+	border-bottom:1px solid;
+	padding:5px;
+}
+.ctr>.toolbox>button{
+	padding:2px 5px;
+	text-transform:capitalize;
+}
+.ctr>.grid{
+	flex:1;
+	font-size:0;
+}
+
+.ctr>.grid>div{
+	border:1px solid;
+	display:inline-block;
+}
+
+.active{
+	background: orange;
+}
+
+
+.ctr>.grid.noBorder>div{
+	border:none !important;
+}
