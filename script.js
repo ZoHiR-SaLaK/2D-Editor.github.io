@@ -39,6 +39,9 @@ window.onload = (e) => {
 			case "reset":
 				GRID.reset();
 				break;
+			default:
+				console.log(e);
+				break;
 		}
 	}
 
@@ -61,7 +64,4 @@ window.onload = (e) => {
 				break;
 		}
 	}
-
-
-
 }
