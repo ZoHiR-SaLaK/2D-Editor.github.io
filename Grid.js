@@ -2,7 +2,6 @@ function Grid(element) {
 
 	this.CELL_WIDTH = 25;
 	this.CELLS_LIST = [];
-	this.border = true;
 
 	this.draw = () => {
 		const columns = getColumns();
@@ -21,9 +20,11 @@ function Grid(element) {
 		}
 
 	}
+
 	this.toggleBorder = () => {
 		element.classList.toggle('noBorder');
 	}
+
 	this.clear = () => {
 		this.getColoredCells().forEach((cell) => {
 			cell.unpaint()
@@ -35,7 +36,6 @@ function Grid(element) {
 			return accu;
 		}, []);
 	}
-
 
 	this.clearGRID = () => {
 		element.innerHTML = '';
@@ -50,8 +50,6 @@ function Grid(element) {
 		})
 	}
 
-
-
 	this.reset = () => {
 		let cells = this.getColoredCells();
 		this.clearGRID();
@@ -59,7 +57,6 @@ function Grid(element) {
 		this.draw();
 		this.drawColoredCells(cells);
 	}
-
 
 	this.zoom = (dir) => {
 		let cells = this.getColoredCells();
@@ -70,11 +67,12 @@ function Grid(element) {
 		this.drawColoredCells(cells);
 	}
 	this.move = (dir) => {
-		const cells = this.getColoredCells();
+		let cells = this.getColoredCells();
 		cells.forEach(cell => {
 			cell.unpaint()
 		})
 
+		cells = JSON.parse(JSON.stringify(cells));
 
 		cells.forEach(cell => {
 			let index = JSON.stringify(moveDir(dir, cell.coords));
@@ -84,7 +82,7 @@ function Grid(element) {
 		})
 	}
 
-	let moveDir = (dir, coords) => {
+	const moveDir = (dir, coords) => {
 		let newCoords = { ...coords
 		};
 		switch (dir) {
@@ -104,11 +102,11 @@ function Grid(element) {
 		return newCoords;
 	}
 
-	let getColumns = () => {
+	const getColumns = () => {
 		return Math.floor(element.getBoundingClientRect().width / this.CELL_WIDTH);
 	}
 
-	let getRows = () => {
+	const getRows = () => {
 		return Math.floor(element.getBoundingClientRect().height / this.CELL_WIDTH);
 	}
 }
