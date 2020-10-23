@@ -15,10 +15,14 @@ i{
 .ctr>.toolbox{
 	border-bottom:1px solid;
 	padding:5px;
+	display: flex;
 }
-.ctr>.toolbox>button{
+.ctr>.toolbox>*{
 	padding:2px 5px;
 	text-transform:capitalize;
+}
+.ctr>.toolbox>* + *{
+	margin-left:5px;
 }
 .ctr>.grid{
 	flex:1;
@@ -39,3 +43,8 @@ i{
 .ctr>.grid.noBorder>div{
 	border:none !important;
 }
+
+.import{
+	margin-right:auto;
+}
+

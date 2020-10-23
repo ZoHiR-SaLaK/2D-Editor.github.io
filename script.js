@@ -5,12 +5,9 @@ window.onload = (e) => {
 
 	const GRID_ELEMENT = document.querySelector('.grid');
 	const GRID = new Grid(GRID_ELEMENT);
-	GRID.draw();
 
 	document.querySelector('.toolbox').onclick = (e) => {
 		const which = e.target.getAttribute('function');
-		if (which == null) return;
-
 		switch (which) {
 			case "clear":
 				GRID.clear();
@@ -39,8 +36,17 @@ window.onload = (e) => {
 			case "reset":
 				GRID.reset();
 				break;
+			case "export":
+				GRID.export();
+				break;
+			case "import":
+				GRID.import();
+				break;
+			case "savels":
+				GRID.saveToLocalStorage();
+				break;
 			default:
-				console.log(e);
+				// console.log(e.target);
 				break;
 		}
 	}
@@ -63,5 +69,23 @@ window.onload = (e) => {
 				console.log(e);
 				break;
 		}
+	}
+	GRID.draw();
+
+
+
+	const select = document.querySelector('select');
+	Object.keys(localStorage).forEach(key => {
+
+		let option = document.createElement('option');
+		option.innerHTML = key;
+		option.setAttribute('value', key);
+		select.appendChild(option)
+	})
+	select.onchange = (e) => {
+		if (+e.target.value < 1)
+			return;
+		GRID.clear();
+		GRID.drawColoredCells(JSON.parse(localStorage.getItem(e.target.value)));
 	}
 }

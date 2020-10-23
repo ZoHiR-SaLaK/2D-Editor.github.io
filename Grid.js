@@ -3,6 +3,53 @@ function Grid(element) {
 	this.CELL_WIDTH = 25;
 	this.CELLS_LIST = [];
 
+	let askDrawingName = () => {
+
+		while (true) {
+			let drawingName = prompt("Enter a Drawing name", "Drawing");
+			if (Object.keys(localStorage).find(key => key == drawingName) === undefined)
+				return drawingName;
+		}
+
+	}
+	this.saveToLocalStorage = () => {
+		let drawingName = askDrawingName();
+
+		if (drawingName) {
+			let cells = JSON.stringify(this.getColoredCells().map(cell => ({
+				coords: cell.coords,
+				color: cell.color
+			})));
+			localStorage.setItem(drawingName, cells);
+		}
+	}
+
+	this.export = () => {
+		let cells = JSON.stringify(this.getColoredCells().map(cell => ({
+			coords: cell.coords,
+			color: cell.color
+		})));
+		download(cells);
+	}
+
+	this.import = () => {
+		let element = document.createElement('input');
+		element.setAttribute('type', 'file');
+		element.setAttribute('accept', '.txt');
+
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.onchange = (e) => {
+			let fr = new FileReader();
+			fr.onload = _ => this.drawColoredCells(JSON.parse(fr.result));
+			fr.readAsText(element.files[0]);
+		}
+		element.click();
+		document.body.removeChild(element);
+	}
+
+
+
 	this.draw = () => {
 		const columns = getColumns();
 		const rows = getRows();
@@ -18,7 +65,6 @@ function Grid(element) {
 				element.appendChild(cell.print());
 			}
 		}
-
 	}
 
 	this.toggleBorder = () => {
@@ -108,5 +154,18 @@ function Grid(element) {
 
 	const getRows = () => {
 		return Math.floor(element.getBoundingClientRect().height / this.CELL_WIDTH);
+	}
+
+	const download = (text) => {
+		var element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+		element.setAttribute('download', 'Capture');
+
+		element.style.display = 'none';
+		document.body.appendChild(element);
+
+		element.click();
+
+		document.body.removeChild(element);
 	}
 }
