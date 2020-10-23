@@ -16,6 +16,7 @@ i{
 	border-bottom:1px solid;
 	padding:5px;
 	display: flex;
+	flex-wrap:wrap;
 }
 .ctr>.toolbox>*{
 	padding:2px 5px;
