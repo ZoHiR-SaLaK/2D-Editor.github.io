@@ -2,7 +2,7 @@ window.oncontextmenu = (e) => {
 	e.preventDefault();
 }
 window.onload = (e) => {
-
+	const importsContainer = document.querySelector('.importContainer');
 	const GRID_ELEMENT = document.querySelector('.grid');
 	const GRID = new Grid(GRID_ELEMENT);
 
@@ -45,8 +45,11 @@ window.onload = (e) => {
 			case "savels":
 				GRID.saveToLocalStorage();
 				break;
+			case "importls":
+				importsContainer.style.display = 'flex';
+				break;
 			default:
-				// console.log(e.target);
+				console.log(e.target);
 				break;
 		}
 	}
@@ -74,18 +77,54 @@ window.onload = (e) => {
 
 
 
-	const select = document.querySelector('select');
+	let ul = importsContainer.querySelector('ul');
 	Object.keys(localStorage).forEach(key => {
-
-		let option = document.createElement('option');
-		option.innerHTML = key;
-		option.setAttribute('value', key);
-		select.appendChild(option)
+		ul.innerHTML += `
+			<li>
+				<span>${key}</span>
+				<button function="import">import</button>
+				<button function="delete">Delete</button>
+			</li>`
 	})
-	select.onchange = (e) => {
-		if (+e.target.value < 1)
-			return;
-		GRID.clear();
-		GRID.drawColoredCells(JSON.parse(localStorage.getItem(e.target.value)));
+
+	importsContainer.onclick = e => {
+		const target = e.target.getAttribute('function');
+
+		switch (target) {
+			case "importContainer":
+				importsContainer.style.display = '';
+				break;
+			case "import":
+				{
+					let drawing = e.target.parentElement.children[0].innerHTML;
+					GRID.drawColoredCells(JSON.parse(localStorage.getItem(drawing)));
+					importsContainer.style.display = '';
+				}
+				break;
+			case "delete":
+				{
+					let drawing = e.target.parentElement.children[0].innerHTML;
+					localStorage.removeItem(drawing)
+					e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+				}
+				break;
+			default:
+
+				break;
+		}
 	}
+	// const select = document.querySelector('select');
+	// Object.keys(localStorage).forEach(key => {
+
+	// 	let option = document.createElement('option');
+	// 	option.innerHTML = key;
+	// 	option.setAttribute('value', key);
+	// 	select.appendChild(option)
+	// })
+	// select.onchange = (e) => {
+	// 	if (+e.target.value < 1)
+	// 		return;
+	// 	GRID.clear();
+	// 	GRID.drawColoredCells(JSON.parse(localStorage.getItem(e.target.value)));
+	// }
 }
