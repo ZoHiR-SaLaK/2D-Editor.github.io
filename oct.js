@@ -2,7 +2,7 @@ const oct = {
 	init: function() {
 		console.log('Oct Initialized')
 		model.init();
-		view.init(document, { CELL_WIDTH: model.CELL_WIDTH });
+		view.init(document);
 	},
 	getCells: function() {
 		return model.CELLS_LIST;
@@ -10,8 +10,8 @@ const oct = {
 	getGridContainer: function() {
 		return model.GRID;
 	},
-	genCells: function(elm) {
-		const { width, height } = elm.getBoundingClientRect();
+	genCells: function() {
+		const { width, height } = model.GRID.getBoundingClientRect();
 		const columns = Math.floor(width / model.CELL_WIDTH);
 		const rows = Math.floor(height / model.CELL_WIDTH);
 		model.generateCells(rows, columns);
